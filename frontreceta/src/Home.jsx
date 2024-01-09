@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { Drawer, List, ListItem, ListItemText, Dialog, DialogTitle, DialogContent, Button } from '@mui/material';
+import { Link, useNavigate } from "react-router-dom";
 import Images from './Images';
 import './style/paginas.css'; // Importa los estilos CSS
 
@@ -15,6 +16,8 @@ const Home = () => {
         unit: '',
         price: '',
     });
+    const [isLogged, setIsLogged] = useState(true);
+    const navigate = useNavigate();
 
     //parte de notas
     const handleShowAddIngredient = () => {
@@ -54,7 +57,10 @@ const Home = () => {
     const [message, setMessage] = useState('');
 
     const handleItemClick = (text) => {
-        if (text !== 'Cerrar sesión') {
+        if (text === 'Cerrar sesión') {
+            setIsLogged(false); // Cierra la sesión al hacer clic en 'Cerrar sesión'
+            navigate('/');
+        } else {
             setMessage(`Lo sentimos, pero por el momento estamos trabajando en ${text}`);
             setShowMessage(true);
         }
@@ -68,6 +74,11 @@ const Home = () => {
     useEffect(() => {
         getRandomItems();
     }, []);
+
+    const handleLogout = () => {
+        // Aquí realizas las acciones necesarias para cerrar la sesión
+        setIsLogged(false);
+    };
 
     return (
         <div>

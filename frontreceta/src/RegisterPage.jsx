@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./style/register.css";
 
 const RegisterPage = () => {
@@ -11,7 +12,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validar los datos ingresados
@@ -27,6 +28,21 @@ const RegisterPage = () => {
 
     // Enviar los datos al servidor
     // ...
+    try {
+      const response = await axios.post("http://localhost:4567/usuarios", {
+        username,
+        name,
+        surnames,
+        email,
+        password,
+      });
+      console.log(email);
+      console.log(response.data); // Mensaje del servidor
+      // Realiza alguna acción después de recibir la respuesta del servidor
+    } catch (error) {
+      console.error("Error al enviar los datos:", error);
+      // Realiza alguna acción si hay un error en la solicitud
+    }
   };
 
   return (
