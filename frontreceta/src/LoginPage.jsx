@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import backgroundImg from './assets/imagenes/pexels-ella-olsson-1640777.jpg';
 import "./style/login.css";
 
@@ -8,6 +8,7 @@ import "./style/login.css";
 const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,17 +19,14 @@ const LoginPage = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:4567/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userData),
+            const response = await fetch(`http://localhost:4567/login?username=${userData.username}&password=${userData.password}`, {
+                method: 'GET'
             });
         
             if (response.ok) {
                 console.log('Inicio de sesión exitoso');
                 // Realiza alguna acción, como redirigir a otra página
+                navigate('/Home');
             } else {
                 console.error('Error al iniciar sesión');
                 // Muestra un mensaje de error o maneja el fallo de inicio de sesión
@@ -37,6 +35,7 @@ const LoginPage = () => {
             console.error('Error al conectar con el servidor:', error);
         }
     };
+    
 
     return (
         <div className="login-page">
